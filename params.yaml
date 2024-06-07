@@ -1,0 +1,107 @@
+general:
+  seed: 20170428
+prepare:
+  PAMAP:
+    Experiment1:
+      test:
+      - 1
+      train:
+      - 2
+      - 3
+      - 4
+      - 7
+      - 8
+      validation:
+      - 5
+      - 6
+    Experiment2:
+      test:
+      - 2
+      train:
+      - 1
+      - 3
+      - 4
+      - 7
+      - 8
+      validation:
+      - 5
+      - 6
+    Experiment3:
+      test:
+      - 3
+      train:
+      - 1
+      - 2
+      - 4
+      - 7
+      - 8
+      validation:
+      - 5
+      - 6
+    Experiment4:
+      test:
+      - 4
+      train:
+      - 1
+      - 2
+      - 3
+      - 7
+      - 8
+      validation:
+      - 5
+      - 6
+    Experiment5:
+      test:
+      - 5
+      train:
+      - 1
+      - 2
+      - 3
+      - 7
+      - 8
+      validation:
+      - 4
+      - 6
+    Experiment6:
+      test:
+      - 6
+      train:
+      - 1
+      - 2
+      - 3
+      - 7
+      - 8
+      validation:
+      - 5
+      - 4
+    Experiment7:
+      test:
+      - 7
+      train:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 8
+      validation:
+      - 5
+      - 6
+    Experiment8:
+      test:
+      - 8
+      train:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 7
+      validation:
+      - 5
+      - 6
+  seed: 20170428
+train:
+  batch_size: 32
+  lr: 0.001
+  output_dir: 12
+  participant: Experiment8
+  weight_decay: 10e-5
