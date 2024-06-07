@@ -100,8 +100,9 @@ prepare:
       - 6
   seed: 20170428
 train:
-  batch_size: 32
-  lr: 0.001
-  output_dir: 12
-  participant: Experiment8
-  weight_decay: 10e-5
+  batch_size: 64
+  lr: 0.01
+  output_dir: 13
+  participant: Experiment4
+  weight_decay: 0.0001
+

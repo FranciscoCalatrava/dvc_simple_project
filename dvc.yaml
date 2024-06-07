@@ -1,0 +1,80 @@
+stages:
+  prepare:
+    foreach: 
+      - Experiment1
+      - Experiment2
+      - Experiment3
+      - Experiment4
+      - Experiment5
+      - Experiment6
+      - Experiment7
+      - Experiment8
+    do:
+      cmd: python3 src/prepare.py PAMAP ${item} data/prepared/PAMAP/${item}/
+      deps:
+        - src/prepare.py
+        - datasets/PAMAP2/PAMAP2_Dataset/Protocol/subject101.dat
+        - datasets/PAMAP2/PAMAP2_Dataset/Protocol/subject102.dat
+        - datasets/PAMAP2/PAMAP2_Dataset/Protocol/subject103.dat
+        - datasets/PAMAP2/PAMAP2_Dataset/Protocol/subject104.dat
+        - datasets/PAMAP2/PAMAP2_Dataset/Protocol/subject105.dat
+        - datasets/PAMAP2/PAMAP2_Dataset/Protocol/subject106.dat
+        - datasets/PAMAP2/PAMAP2_Dataset/Protocol/subject107.dat
+        - datasets/PAMAP2/PAMAP2_Dataset/Protocol/subject108.dat
+      params:
+        - prepare.seed
+        - prepare.PAMAP.${item}.train
+        - prepare.PAMAP.${item}.validation
+        - prepare.PAMAP.${item}.test
+      outs:
+        - data/prepared/PAMAP/${item}/train_data.npz
+        - data/prepared/PAMAP/${item}/validation_data.npz
+        - data/prepared/PAMAP/${item}/test_data.npz
+
+  train:
+    foreach: 
+      - Experiment1
+      - Experiment2
+      - Experiment3
+      - Experiment4
+      - Experiment5
+      - Experiment6
+      - Experiment7
+      - Experiment8
+    do:
+      cmd: python3 src/train.py data/prepared/PAMAP/${item}/ model/PAMAP/${item}/${train.output_dir}/
+      deps:
+        - data/prepared/PAMAP/${item}/train_data.npz
+        - data/prepared/PAMAP/${item}/validation_data.npz
+        - src/train.py
+      params:
+        - train.lr
+        - train.batch_size
+        - train.weight_decay
+        - general.seed
+        - train.output_dir
+      outs:
+        -  model/PAMAP/${item}/${train.output_dir}/encoder.pt
+        -  model/PAMAP/${item}/${train.output_dir}/classifier.pt
+
+  test:
+    foreach: 
+      - Experiment1
+      - Experiment2
+      - Experiment3
+      - Experiment4
+      - Experiment5
+      - Experiment6
+      - Experiment7
+      - Experiment8
+    do:
+      cmd: python3 src/test.py data/prepared/PAMAP/${item}/ model/PAMAP/${item}/${train.output_dir}/ metrics/PAMAP/${item}/${train.output_dir}/
+      deps:
+      - data/prepared/PAMAP/${item}/test_data.npz
+      - src/test.py
+      - model/PAMAP/${item}/${train.output_dir}/encoder.pt
+      - model/PAMAP/${item}/${train.output_dir}/classifier.pt
+      outs:
+        - metrics/PAMAP/${item}/${train.output_dir}/classification_metrics/results.csv
+        - metrics/PAMAP/${item}/${train.output_dir}/confusion_matrix/results.txt
+        - metrics/PAMAP/${item}/${train.output_dir}/prediction_target/results.txt
